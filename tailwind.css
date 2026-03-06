@@ -1,0 +1,170 @@
+/* Web Hanzzy v4  -  custom styles */
+
+:root {
+  --glass-bg: rgba(255,255,255,0.72);
+  --glass-border: rgba(0,0,0,0.09);
+  --grid-line: rgba(0,0,0,0.06);
+}
+.dark {
+  --glass-bg: rgba(255,255,255,0.055);
+  --glass-border: rgba(255,255,255,0.10);
+  --grid-line: rgba(255,255,255,0.055);
+}
+
+/* Smooth theme transition */
+*, *::before, *::after {
+  transition: background-color .25s ease, border-color .25s ease, color .2s ease, box-shadow .2s ease;
+}
+/* Skip transition on animated/interactive elements */
+img, svg, canvas, [class*="animate-"], #timerFill { transition: none !important; }
+
+/* Font */
+body {
+  font-family: 'Plus Jakarta Sans', ui-sans-serif, system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+.font-display, [class*="font-display"] {
+  font-family: 'Outfit', ui-sans-serif, system-ui, sans-serif;
+}
+
+/* Grid background */
+.bg-grid {
+  background-image:
+    linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
+  background-size: 44px 44px;
+}
+
+/* Glass */
+.glass {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+/* Shimmer skeleton */
+.shimmer {
+  animation: shimmer 1.4s infinite linear;
+}
+.dark .shimmer {
+  background: linear-gradient(90deg, rgba(255,255,255,0.05) 25%, rgba(255,255,255,0.12) 50%, rgba(255,255,255,0.05) 75%);
+  background-size: 200% 100%;
+}
+:not(.dark) .shimmer {
+  background: linear-gradient(90deg, rgba(0,0,0,0.05) 25%, rgba(0,0,0,0.10) 50%, rgba(0,0,0,0.05) 75%);
+  background-size: 200% 100%;
+}
+@keyframes shimmer {
+  from { background-position: 200% 0; }
+  to   { background-position: -200% 0; }
+}
+
+/* QR pulse ring */
+.qr-pulse-wrap {
+  position: relative;
+  display: inline-block;
+  isolation: isolate;
+}
+.qr-pulse-wrap::before,
+.qr-pulse-wrap::after {
+  content: '';
+  position: absolute;
+  inset: -6px;
+  border-radius: 22px;
+  border: 1.5px solid rgba(99,102,241,0.3);
+  animation: qrRing 2.6s ease-out infinite;
+  pointer-events: none;
+  z-index: -1;
+}
+.qr-pulse-wrap::after {
+  animation-delay: 1.3s;
+  border-color: rgba(99,102,241,0.15);
+}
+@keyframes qrRing {
+  0%   { transform: scale(0.96); opacity: 0.8; }
+  100% { transform: scale(1.14); opacity: 0; }
+}
+
+/* Payment modal */
+#payModal {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .22s ease !important;
+}
+#payModal.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+#payModalCard {
+  transform: translateY(32px);
+  transition: transform .32s cubic-bezier(0.16,1,0.3,1) !important;
+  will-change: transform;
+}
+#payModal.open #payModalCard {
+  transform: translateY(0);
+}
+/* Fix pulse ring tidak overflow saat scroll */
+#payModalCard .qr-pulse-wrap::before,
+#payModalCard .qr-pulse-wrap::after {
+  overflow: hidden;
+}
+
+/* Timer */
+#timerFill {
+  transition: width 1s linear, background-color .4s ease !important;
+}
+
+/* Success animation */
+.success-pop {
+  animation: successPop .42s cubic-bezier(0.16,1,0.3,1);
+}
+@keyframes successPop {
+  0%   { transform: scale(0.65); opacity: 0; }
+  60%  { transform: scale(1.08); }
+  100% { transform: scale(1);   opacity: 1; }
+}
+
+/* Toast */
+.toast-enter {
+  animation: toastIn .28s cubic-bezier(0.16,1,0.3,1);
+}
+@keyframes toastIn {
+  from { transform: translateX(24px) scale(0.95); opacity: 0; }
+  to   { transform: translateX(0) scale(1); opacity: 1; }
+}
+
+/* Focus */
+:focus-visible {
+  outline: 2px solid rgba(99,102,241,0.75);
+  outline-offset: 2px;
+}
+
+/* Number input */
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+input[type=number] { -moz-appearance: textfield; }
+
+/* Scrollbar hide */
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* Category active state */
+.catBtn.active {
+  background: rgb(99 102 241 / 0.15) !important;
+  border-color: rgb(99 102 241 / 0.35) !important;
+  color: rgb(99 102 241) !important;
+}
+.dark .catBtn.active {
+  background: rgb(99 102 241 / 0.2) !important;
+  color: rgb(165 180 252) !important;
+}
+
+/* Cancel confirm box */
+#cancelConfirmBox {
+  animation: slideUpBox .22s cubic-bezier(0.16,1,0.3,1);
+}
+@keyframes slideUpBox {
+  from { transform: translateY(16px); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
+}
