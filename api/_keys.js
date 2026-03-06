@@ -32,6 +32,6 @@ export const KEYS = {
     botToken: "8487402096:AAEhYE5W19BZz5lmFdrGZqOFzZRBDKexqo8",      // contoh: 123456:ABC-DEF...
     ownerChatId: "7116335600",   // contoh: 123456789
     channelChatId: "@HanzzyInfo", // contoh: -1001234567890 atau @usernamechannel
-    websiteUrl: "https://hanzzy-store.vercel.app/api/pakasir-webhook", // untuk ditampilkan di struk
+    websiteUrl: "https://hanzzydigital.vercel.app/api/pakasir-webhook", // untuk ditampilkan di struk
   },
 };
