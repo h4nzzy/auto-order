@@ -279,7 +279,7 @@ export default async function handler(req, res) {
           region: KEYS.digitalocean.region,
           size,
           image: KEYS.digitalocean.image,
-          tags: ["web-chandracloud", `order-${orderId}`],
+          tags: ["web-hanzzy", `order-${orderId}`],
         },
         {
           headers: {
@@ -350,6 +350,52 @@ export default async function handler(req, res) {
         tx,
       });
     }
+
+
+    // ── Script Bot WhatsApp ──────────────────────────────────────────
+if (productKey === "script") {
+  // Link diambil dari Vercel Environment Variables
+  const linkMap = {
+    "script-basic":   process.env.SCRIPT_LINK_BASIC,
+    "script-premium": process.env.SCRIPT_LINK_PREMIUM,
+    "script-ultra":   process.env.SCRIPT_LINK_ULTRA,
+  };
+
+  const downloadLink = linkMap[planKey];
+
+  if (!downloadLink) {
+    console.error("[fulfill] Link script tidak ditemukan untuk planKey:", planKey);
+    return res.status(500).json({ error: "Link script belum dikonfigurasi." });
+  }
+
+  // Kirim email ke buyer berisi link download
+  await sendMail({
+    to:      buyerEmail,
+    subject: `Script Bot - ${planLabel || planKey} | Web Hanzzy`,
+    html: `
+      <div style="font-family:sans-serif;max-width:520px;margin:auto;padding:24px">
+        <h2 style="color:#f59e0b;margin-bottom:8px">Pesanan Berhasil</h2>
+        <p style="color:#555;margin-bottom:20px">
+          Terima kasih telah membeli <strong>${planLabel || planKey}</strong>.<br/>
+          Berikut link download script kamu:
+        </p>
+        <div style="background:#f9f9f9;border:1px solid #eee;border-radius:10px;padding:16px;margin-bottom:20px">
+          <div style="font-size:12px;color:#999;margin-bottom:6px;text-transform:uppercase;letter-spacing:.06em">Link Download</div>
+          <a href="${downloadLink}" style="color:#f59e0b;font-weight:700;word-break:break-all">${downloadLink}</a>
+        </div>
+        <p style="color:#888;font-size:12px">
+          Order ID: <code>${orderId}</code><br/>
+          Script berbasis Node.js — siap deploy di VPS atau Termux.
+        </p>
+        <hr style="border:none;border-top:1px solid #eee;margin:20px 0"/>
+        <p style="color:#bbb;font-size:11px">Web Hanzzy &mdash; Jangan bagikan link ini ke orang lain.</p>
+      </div>
+    `,
+  });
+
+  return res.status(200).json({ ok: true, message: "Link script berhasil dikirim ke email." });
+}
+// ────────────────────────────────────────────────────────────────
 
     // reseller or unknown: keep manual
     const msgMap = {
