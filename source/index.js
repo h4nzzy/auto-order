@@ -108,10 +108,12 @@ function buildSection(product) {
   const cards = product.plans.map(p => {
     const isUnlimited = product.key === "panel" && p.ramGb === 0;
     const subline =
-      product.key === "vps"      ? `${p.cores} Core \u00b7 ${p.ramGb}GB RAM \u00b7 Singapore \u00b7 Ubuntu 24.04` :
-      product.key === "panel"    ? (isUnlimited ? "Request-based \u00b7 Fair Use" : `${p.ramGb}GB RAM`) :
-      product.key === "admin"    ? "Akses admin untuk panel" :
-                                   "Akses reseller untuk panel";
+  product.key === "vps"      ? `${p.cores} Core &mdash; ${p.ramGb}GB RAM &mdash; Singapore` :
+  product.key === "panel"    ? (p.ramGb === 0 ? "Request-based" : `${p.ramGb}GB RAM`) :
+  product.key === "admin"    ? "Akses level admin" :
+  product.key === "reseller" ? "Akses reseller" :
+  product.key === "script"   ? (p.desc || "Script Bot WhatsApp") :
+  "";
     const badge = p.badge
       ? `<span class="rounded-full px-2 py-0.5 text-[11px] border border-black/10 bg-black/5 dark:border-white/10 dark:bg-white/5">${escapeHtml(p.badge)}</span>`
       : "";
